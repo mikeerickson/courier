@@ -25,7 +25,7 @@ class Runner {
           prompt
             .run()
             .then(answer => {
-              answer ? this.executeCommand(process.argv) : console.log(colors.yellow("Installation Cancelled"));
+              answer ? this.executeCommand(process.argv) : console.log(colors.red("🚫 Execution Aborted"));
             })
             .catch(console.error);
         } else {

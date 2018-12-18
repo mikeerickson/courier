@@ -1,6 +1,6 @@
 {
   "name": "courier",
-  "version": "0.0.2-dev.4",
+  "version": "0.0.2-dev.5",
   "main": "index.js",
   "bin": {
     "courier": "./index.js"
