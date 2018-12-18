@@ -7,7 +7,7 @@ const Runner = require("./src/Runner");
 const cli = meow(
   `
     Usage
-      $ foo <input>
+      $ courier install <params>
 
     Options
       --force, -f  Execute without confirmation

@@ -1,12 +1,22 @@
 {
   "name": "courier",
-  "version": "0.0.2-dev.5",
+  "packageName": "Courier",
+  "version": "0.0.2-dev.6",
+  "tagline": "Crafted with love by Codedungeon",
   "main": "index.js",
   "bin": {
     "courier": "./index.js"
   },
   "author": "Mike Erickson <codedungeon@gmail.com> (https://github.com/mikeerickson)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeerickson/courier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikeerickson/courier/issues"
+  },
+  "homepage": "https://github.com/mikeerickson/courier#readme",
   "dependencies": {
     "ansi-colors": "3.2.3",
     "chalk": "2.4.1",

@@ -18,7 +18,7 @@ class Runner {
             name: "pkg",
             initial: "n",
             message:
-              colors.yellow(`⚠️  This project has been using ${colors.cyan("yarn")}.\n`) +
+              colors.yellow(`⚠️  This project has been configured to use ${colors.cyan("yarn")}.\n`) +
               colors.cyan("Are you sure you wish to use npm?")
           });
 
