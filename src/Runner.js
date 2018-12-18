@@ -1,7 +1,8 @@
-const { Confirm } = require("enquirer");
-const colors = require("ansi-colors");
-const execa = require("execa");
 const ora = require("ora");
+const execa = require("execa");
+const colors = require("ansi-colors");
+
+const { Confirm } = require("enquirer");
 
 class Runner {
   constructor(command, args) {
@@ -13,7 +14,9 @@ class Runner {
 
       prompt
         .run()
-        .then(answer => this.executeCommand(process.argv))
+        .then(answer => {
+          answer ? this.executeCommand(process.argv) : process.exit(1);
+        })
         .catch(console.error);
     } else {
       this.executeCommand(process.argv);
@@ -24,7 +27,7 @@ class Runner {
     let idx = argv.indexOf("--force");
     idx !== -1 ? argv.splice(idx, 1) : null;
     // start spinner
-    const spinner = ora(colors.magenta("Installing modules...")).start();
+    const spinner = ora(colors.yellow("Installing modules...")).start();
     execa("npm", argv)
       .then(result => {
         spinner.stop();
