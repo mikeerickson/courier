@@ -19,7 +19,8 @@ class Runner {
     }
   }
   executeCommand(argv) {
-    console.log(argv);
+    // remove element 0..1
+    // remove --force
   }
 }
 
