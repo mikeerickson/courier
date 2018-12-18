@@ -1,7 +1,7 @@
 {
   "name": "courier",
   "packageName": "Courier",
-  "version": "0.1.0-dev.1",
+  "version": "0.1.0",
   "tagline": "Crafted with love by Codedungeon",
   "main": "index.js",
   "bin": {
@@ -35,7 +35,7 @@
     "bump:minor": "version-bump cli minor",
     "lint": "echo 'Lint...'",
     "test": "echo 'Test...'",
-    "pre-commit": "yarn run test && yarn run lint && yarn run bump:dev"
+    "pre-commit": "yarn run test && yarn run lint"
   },
   "devDependencies": {
     "@commitlint/cli": "7.2.1",
