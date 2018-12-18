@@ -1,0 +1,16 @@
+{
+  "name": "courier",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "courier": "./index.js"
+  },
+  "author": "Mike Erickson <codedungeon@gmail.com> (https://github.com/mikeerickson)",
+  "license": "MIT",
+  "dependencies": {
+    "ansi-colors": "3.2.3",
+    "enquirer": "2.2.0",
+    "execa": "1.0.0",
+    "meow": "5.0.0"
+  }
+}
