@@ -12,7 +12,7 @@ Courier is a simple CLI tool which works as an alias to npm, will check to see i
 alias npm="courer"
 ```
 
-2. follow prompts
+2. Execute `npm` as you normally would and let the magic happen
 
 ### License
 
