@@ -6,19 +6,19 @@ Courier is a simple CLI tool which works as an alias to npm. When active, courie
 
 ## Usage
 
-1. Create bash alias (place it wherever you wish such as `.bash_profile`, `.zshrc`, etc.
+1. Create bash alias (place it wherever you wish such as `.bash_profile`, `.zshrc`, etc).
 
-	```bash
-	alias npm="courier"
-	```
+   ```bash
+   alias npm="courier"
+   ```
 
 2. Execute `npm` as you normally would and let the magic happen
 
-	```bash
-	❯ npm i -D test      
-	? ⚠️  This project has been configured to use yarn
-	Are you sure you wish to use npm? (Y/n) › false
-	```
+   ```bash
+   ❯ npm i -D test
+   ? ⚠️  This project has been configured to use yarn
+   Are you sure you wish to use npm? (Y/n) › No
+   ```
 
 ### License
 

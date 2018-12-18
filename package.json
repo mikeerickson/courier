@@ -1,7 +1,7 @@
 {
   "name": "courier",
   "packageName": "Courier",
-  "version": "0.0.2-dev.6",
+  "version": "0.0.2-dev.7",
   "tagline": "Crafted with love by Codedungeon",
   "main": "index.js",
   "bin": {

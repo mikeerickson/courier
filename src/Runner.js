@@ -17,6 +17,9 @@ class Runner {
           const prompt = new Confirm({
             name: "pkg",
             initial: "n",
+            format() {
+              return this.value === true ? "Yes" : "No";
+            },
             message:
               colors.yellow(`⚠️  This project has been configured to use ${colors.cyan("yarn")}.\n`) +
               colors.cyan("Are you sure you wish to use npm?")
