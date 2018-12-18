@@ -1,6 +1,6 @@
 {
   "name": "courier",
-  "version": "0.0.2-dev.01",
+  "version": "0.0.2-dev.3",
   "main": "index.js",
   "bin": {
     "courier": "./index.js"
@@ -20,6 +20,21 @@
   "scripts": {
     "bump:dev": "version-bump cli pre-release:dev",
     "bump:patch": "version-bump cli patch",
-    "bump:minor": "version-bump cli minor"
+    "bump:minor": "version-bump cli minor",
+    "lint": "echo 'Lint...'",
+    "test": "echo 'Test...'",
+    "pre-commit": "yarn run test && yarn run lint && yarn run bump:dev"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "7.2.1",
+    "@commitlint/config-conventional": "7.1.2",
+    "commitlint": "7.2.1",
+    "husky": "1.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
