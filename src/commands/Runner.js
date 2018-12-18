@@ -17,6 +17,7 @@ class Runner {
       if (!args.force) {
         let lockFilename = path.join(process.env.PWD, "yarn.lock");
         if (fs.existsSync(lockFilename)) {
+          console.log("");
           const prompt = new Confirm({
             name: "pkg",
             initial: "n",
@@ -31,7 +32,7 @@ class Runner {
           prompt
             .run()
             .then(answer => {
-              answer ? this.executeCommand(process.argv) : console.log(colors.red("🚫 Execution Aborted"));
+              answer ? this.executeCommand(process.argv) : console.log(colors.red("\n🚫 Execution Aborted"));
             })
             .catch(console.error);
         } else {

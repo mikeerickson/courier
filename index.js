@@ -9,9 +9,8 @@ const Runner = require("./src/commands/Runner");
 
 class CLI {
   constructor(argv) {
-    this.command = argv[2];
-    this.arguments = argv;
-    this.handleCommands(this.command, this.arguments);
+    let command = argv[2];
+    this.handleCommands(command, argv);
   }
   showHelp() {
     let help = `
