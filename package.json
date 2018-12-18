@@ -9,8 +9,10 @@
   "license": "MIT",
   "dependencies": {
     "ansi-colors": "3.2.3",
+    "chalk": "2.4.1",
     "enquirer": "2.2.0",
     "execa": "1.0.0",
-    "meow": "5.0.0"
+    "meow": "5.0.0",
+    "ora": "3.0.0"
   }
 }

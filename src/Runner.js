@@ -1,6 +1,7 @@
 const { Confirm } = require("enquirer");
 const colors = require("ansi-colors");
 const execa = require("execa");
+const ora = require("ora");
 
 class Runner {
   constructor(command, args) {
@@ -19,8 +20,16 @@ class Runner {
     }
   }
   executeCommand(argv) {
-    // remove element 0..1
-    // remove --force
+    argv.splice(0, 2); // remove first two items
+    let idx = argv.indexOf("--force");
+    idx !== -1 ? argv.splice(idx, 1) : null;
+    // start spinner
+    const spinner = ora(colors.magenta("Installing modules...")).start();
+    execa("npm", argv)
+      .then(result => {
+        spinner.stop();
+      })
+      .catch(err => console.log(err));
   }
 }
 
