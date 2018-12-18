@@ -3,15 +3,18 @@ const path = require("path");
 const execa = require("execa");
 const fs = require("fs-extra");
 const colors = require("ansi-colors");
+const parse = require("yargs-parser");
+const exec = require("child_process").execSync;
+const spawn = require("child_process").spawnSync;
 
 const { Confirm } = require("enquirer");
 
 class Runner {
   constructor(command, args) {
     if (command.toLowerCase() !== "install" && command.toLowerCase() !== "i") {
-      this.executeDefault(process.argv);
+      this.execute(process.argv);
     } else {
-      if (args.hasOwnProperty("force") && !args.force) {
+      if (!args.force) {
         let lockFilename = path.join(process.env.PWD, "yarn.lock");
         if (fs.existsSync(lockFilename)) {
           const prompt = new Confirm({
@@ -39,11 +42,21 @@ class Runner {
       }
     }
   }
+  execute(argv = []) {
+    let args = argv.slice(2).join(" ");
+    let cmd = "npm " + args;
+    exec(cmd, { stdio: "inherit" });
+  }
   executeDefault(argv = []) {
     argv.splice(0, 2); // remove first two items
+    let modules = argv
+      .join(" ")
+      .replace("install", "")
+      .replace("i", "");
+    const spinner = ora(colors.yellow(`Running ${"npm"}${modules}...`)).start();
     execa("npm", argv)
       .then(result => {
-        /* success */
+        spinner.stop();
       })
       .catch(err => {
         console.error(err);
@@ -52,9 +65,15 @@ class Runner {
 
   executeCommand(argv) {
     argv.splice(0, 2); // remove first two items
+    let args = parse(argv);
+
     let idx = argv.indexOf("--force");
     idx !== -1 ? argv.splice(idx, 1) : null;
-    let forceStr = idx !== -1 ? " (with force) " : "";
+
+    let idx2 = argv.indexOf("-f");
+    idx2 !== -1 ? argv.splice(idx2, 1) : null;
+
+    let forceStr = args.force || args.f ? " (with force) " : "";
 
     let modules = argv
       .join(" ")

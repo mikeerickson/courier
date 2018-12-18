@@ -1,7 +1,7 @@
 {
   "name": "courier",
   "packageName": "Courier",
-  "version": "0.0.2-dev.7",
+  "version": "0.1.0-dev.1",
   "tagline": "Crafted with love by Codedungeon",
   "main": "index.js",
   "bin": {
@@ -21,6 +21,7 @@
     "ansi-colors": "3.2.3",
     "chalk": "2.4.1",
     "colors": "1.3.3",
+    "commander": "2.19.0",
     "enquirer": "2.2.0",
     "execa": "1.0.0",
     "fs-extra": "7.0.1",
@@ -28,6 +29,7 @@
     "ora": "3.0.0"
   },
   "scripts": {
+    "bump": "yarn run bump:dev",
     "bump:dev": "version-bump cli pre-release:dev",
     "bump:patch": "version-bump cli patch",
     "bump:minor": "version-bump cli minor",
