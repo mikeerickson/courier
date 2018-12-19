@@ -1,73 +1,30 @@
 #!/usr/bin/env node
 
 const colors = require("chalk");
-const parser = require("yargs-parser");
-const pkgInfo = require("./package.json");
+const repeating = require("repeating");
+const terminalInfo = require("window-size");
+const pkg = require("./package.json");
+const updateNotifier = require("update-notifier");
+const pleaseUpgradeNode = require("please-upgrade-node");
 
-// Load Commands
-const Runner = require("./src/commands/Runner");
+const CLI = require("./src/cli");
 
-class CLI {
-  constructor(argv) {
-    let command = argv[2];
-    this.handleCommands(command, argv);
+// check node version
+pleaseUpgradeNode(pkg, {
+  exitCode: 0,
+  message: requiredVersion => {
+    return colors.red(`\n 🚫  ${pkg.packageName} requires Node version ` + requiredVersion + " or greater.");
   }
-  showHelp() {
-    let help = `
-${colors.yellow.bold("Usage")}:
-  courier <command> [options]
-  npm <command> [options]
-  ${colors.magenta("Make sure you have aliased npm to run courier")}
+});
 
-  ${colors.green("NOTE: You can remove alias by executing `unlink npm`")}
-    `;
+// check for any cli updates
+updateNotifier({ pkg }).notify();
 
-    let options = `
-${colors.yellow.bold("Options")}:
-  --help, -h, -H    Shows help (this screen)
-  --version, -V     Shows version
-    `;
-    console.log(`${help}\n${options}`);
-  }
-  showVersion() {
-    console.log("");
-    console.log(colors.cyan(`⚙️  ${pkgInfo.packageName} v${pkgInfo.version}`));
-    console.log(colors.keyword("orange")(`   *** patched npm ***`));
-    console.log(colors.yellow(`   ${pkgInfo.tagline}`));
-  }
-  handleCommands(command, argv) {
-    const args = parser(argv);
-    if (args.hasOwnProperty("_")) {
-      delete args["_"];
-    }
-
-    // set default flags
-    args.force = args.hasOwnProperty("force") ? args.force : false;
-    args.f = args.hasOwnProperty("f") ? args.f : false;
-    args.force || args.f ? (args.force = args.f = true) : null;
-
-    let showHelp = args.hasOwnProperty("h") || args.hasOwnProperty("H") || args.hasOwnProperty("help");
-    let showVersion = args.hasOwnProperty("-V") || args.hasOwnProperty("version");
-    if (showHelp) {
-      this.showVersion();
-      this.showHelp();
-      process.exit(1);
-    }
-
-    if (showVersion) {
-      this.showVersion();
-      process.exit(1);
-    }
-
-    switch (command) {
-      case "i":
-      case "install":
-        new Runner(command, args);
-        break;
-      default:
-        new Runner(command, args);
-    }
-  }
+if (process.env.PWD === process.env.OLDPWD) {
+  console.log("");
+  console.log(colors.red(repeating(terminalInfo.width, "=")));
+  console.log(colors.red("🚫  WARNING: You are executing this command in the current development directory!"));
+  console.log(colors.red(repeating(terminalInfo.width, "=")));
 }
 
 new CLI(process.argv);

@@ -10,7 +10,10 @@ const spawn = require("child_process").spawnSync;
 const { Confirm } = require("enquirer");
 
 class Runner {
-  constructor(command, args) {
+  constructor(command = "", args = []) {
+    if (command === "") {
+      return;
+    }
     if (command.toLowerCase() !== "install" && command.toLowerCase() !== "i") {
       this.execute(process.argv);
     } else {
