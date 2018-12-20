@@ -4,13 +4,27 @@ const execa = require("execa");
 const fs = require("fs-extra");
 const colors = require("ansi-colors");
 const parse = require("yargs-parser");
+const repeating = require("repeating");
+const terminalInfo = require("window-size");
 const exec = require("child_process").execSync;
-const spawn = require("child_process").spawnSync;
 
 const { Confirm } = require("enquirer");
 
-class Runner {
+class NPM {
   constructor(command = "", args = []) {
+    if (process.env.PWD === process.env.OLDPWD && (command === "install" || command === "i")) {
+      console.log("");
+      console.log(colors.yellow(repeating(terminalInfo.width, "=")));
+      console.log(
+        colors.yellow(
+          `  ⚠️  WARNING: You are in the current development directory. Proceed with caution as you may corrupt ${colors.cyan(
+            "node_modules"
+          )} directory.`
+        )
+      );
+      console.log(colors.yellow(repeating(terminalInfo.width, "=")));
+    }
+
     if (command === "") {
       return;
     }
@@ -35,7 +49,7 @@ class Runner {
           prompt
             .run()
             .then(answer => {
-              answer ? this.executeCommand(process.argv) : console.log(colors.red("\n🚫 Execution Aborted"));
+              answer ? this.executeCommand(process.argv) : console.log(colors.red("\n🚫  Execution Aborted"));
             })
             .catch(console.error);
         } else {
@@ -97,4 +111,4 @@ class Runner {
   }
 }
 
-module.exports = Runner;
+module.exports = NPM;

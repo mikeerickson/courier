@@ -1,9 +1,9 @@
-const pkgInfo = require("../package.json");
-const parser = require("yargs-parser");
 const colors = require("chalk");
+const parser = require("yargs-parser");
+const pkgInfo = require("../package.json");
 
 // Load Commands
-const Runner = require("./commands/Runner");
+const npm = require("./commands/npm");
 
 /**
  * CLI class
@@ -11,13 +11,21 @@ const Runner = require("./commands/Runner");
  * @class CLI
  */
 class CLI {
+  /**
+   *Creates an instance of CLI.
+   * @param {*} argv
+   * @memberof CLI
+   */
   constructor(argv) {
-    let command = argv[2];
-    if (command === undefined) {
+    this.command = argv[2];
+    this.arguments = parser(argv);
+    delete this.arguments["_"];
+
+    if (this.command === undefined) {
       this.showHelp();
       process.exit(1);
     } else {
-      this.handleCommands(command, argv);
+      this.handleCommands(this.command, argv);
     }
   }
 
@@ -32,8 +40,6 @@ class CLI {
 ${colors.yellow.bold("Usage")}:
   courier <command> [options]
   npm <command> [options]
-  ${colors.magenta("Make sure you have aliased npm to run courier")}
-
   ${colors.green("NOTE: You can remove alias by executing `unlink npm`")}
     `;
 
@@ -57,6 +63,43 @@ ${colors.yellow.bold("Options")}:
     console.log(colors.cyan(`⚙️  ${pkgInfo.packageName} v${pkgInfo.version}`));
     console.log(colors.keyword("orange")(`   *** patched npm ***`));
     console.log(colors.yellow(`   ${pkgInfo.tagline}`));
+  }
+
+  /**
+   * getArguments
+   *
+   * @returns
+   * @memberof CLI
+   */
+  getArguments() {
+    return this.arguments;
+  }
+
+  /**
+   * argumentHasOption
+   *
+   * @param {string} [key=""]
+   * @returns
+   * @memberof CLI
+   */
+  argumentHasOption(key = "") {
+    return this.arguments.hasOwnProperty(key);
+  }
+
+  /**
+   * getOptionValue
+   *
+   * @param {*} key
+   * @param {string} [defaultValue=""]
+   * @returns
+   * @memberof CLI
+   */
+  getOptionValue(key, defaultValue = "") {
+    if (this.argumentHasOption(key)) {
+      return this.arguments[key];
+    } else {
+      return defaultValue;
+    }
   }
 
   /**
@@ -92,7 +135,7 @@ ${colors.yellow.bold("Options")}:
     args = this.setDefaultFlags(args);
 
     let showHelp = args.hasOwnProperty("h") || args.hasOwnProperty("H") || args.hasOwnProperty("help");
-    let showVersion = args.hasOwnProperty("-V") || args.hasOwnProperty("version");
+    let showVersion = args.hasOwnProperty("V") || args.hasOwnProperty("version");
     if (showHelp) {
       this.showVersion();
       this.showHelp();
@@ -112,10 +155,10 @@ ${colors.yellow.bold("Options")}:
     switch (command) {
       case "i":
       case "install":
-        new Runner(command, args);
+        new npm(command, args);
         break;
       default:
-        new Runner(command, args);
+        new npm(command, args);
     }
   }
 }
